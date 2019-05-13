@@ -1,0 +1,52 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.5.20.RELEASE'
+    }
+}
+
+plugins {
+    id 'java'
+}
+
+apply plugin: 'org.springframework.boot'
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-jdbc'
+    //compile 'org.springframework.boot:spring-boot-starter-security'
+    compile 'io.springfox:springfox-swagger2:2.6.1'
+    compile 'io.springfox:springfox-swagger-ui:2.6.1'
+    compile 'org.modelmapper.extensions:modelmapper-spring:0.7.5'
+    //compile group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.0-api', version: '1.0.0.Final'
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile 'com.querydsl:querydsl-core:4.2.1'
+    compile 'com.querydsl:querydsl-apt:4.2.1'
+    compile 'com.querydsl:querydsl-jpa:4.2.1'
+    compile 'javax.xml.bind:jaxb-api:2.3.0'
+    compile 'org.mybatis.spring.boot:mybatis-spring-boot-starter:1.2.0'
+    compile 'org.mybatis:mybatis-typehandlers-jsr310:1.0.0'
+    compile 'com.google.code.gson:gson:2.8.5'
+    compile 'org.mybatis:mybatis'
+    compile 'org.mybatis:mybatis-spring'
+    compile 'org.apache.commons:commons-lang3:3.5'
+    //compile 'org.hamcrest:hamcrest:2.1'
+    //compile 'org.hamcrest:hamcrest-library:2.1'
+    //compile 'org.springframework.cloud:spring-cloud-starter-netflix-hystrix'
+    runtime 'com.h2database:h2'
+    runtime 'org.springframework.boot:spring-boot-devtools'
+    compileOnly 'org.projectlombok:lombok'
+
+    testCompile 'org.assertj:assertj-core:3.6.2'
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+}

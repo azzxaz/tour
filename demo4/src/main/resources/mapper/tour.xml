@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tour.infra.mybatis.mapper.TourMapper">
+
+  <insert id="insertTheme" parameterType="TourInfo">
+    INSERT INTO TOUR (PROGRAM_NO, PROGRAM_NAME, THEME, SERVICE_CODE, SERVICE_AREA, PROGRAM_TITLE, PROGRAM_DETAIL)
+    VALUES ((select max(PROGRAM_NO)+1 FROM TOUR), #{programName}, #{theme}, #{serviceCode}, #{serviceArea}, #{programTitle}, #{programDetail})
+    /* insertTheme */
+  </insert>
+
+  <update id="updateTheme" parameterType="TourInfo">
+    UPDATE TOUR SET PROGRAM_NAME = #{programName}
+    <if test="theme != ''">
+      , THEME = #{theme}
+    </if>
+    <if test="serviceArea != ''">
+      , SERVICE_AREA = #{serviceArea}
+    </if>
+    <if test="programTitle != ''">
+      , PROGRAM_TITLE = #{programTitle}
+    </if>
+    <if test="programDetail != ''">
+      , PROGRAM_DETAIL = #{programDetail}
+    </if>
+    WHERE PROGRAM_NO = #{programNo}
+      /* updateTheme */
+  </update>
+
+  <resultMap id="TourThemeListResultMap" type="TourThemeList">
+    <result property="prgm_name" column="PROGRAM_NAME"/>
+    <result property="theme" column="THEME"/>
+    <result property="serviceCode" column="SERVICE_CODE"/>
+  </resultMap>
+
+  <select id="getThemeList" parameterType="Map" resultMap="TourThemeListResultMap">
+    SELECT PROGRAM_NAME, THEME, SERVICE_CODE
+    FROM TOUR
+    WHERE SERVICE_AREA LIKE '%'||#{serviceAreaName}||'%'
+    GROUP BY PROGRAM_NAME, THEME, SERVICE_CODE
+    /* getThemeList */
+  </select>
+
+  <resultMap id="TourProgramListResultMap" type="TourProgramInfo">
+    <result property="region" column="SERVICE_AREA"/>
+    <result property="count" column="COUNT"/>
+  </resultMap>
+
+  <select id="getProgramInfo" parameterType="Map" resultMap="TourProgramListResultMap">
+    SELECT SERVICE_AREA, COUNT(*) as COUNT
+    FROM TOUR
+    WHERE PROGRAM_TITLE LIKE '%'||#{programTitle}||'%'
+    GROUP BY SERVICE_AREA
+    /* getProgramInfo */
+  </select>
+
+  <resultMap id="TourProgramDetailResultMap" type="TourDetail">
+    <result property="programDetail" column="PROGRAM_DETAIL"/>
+  </resultMap>
+
+  <select id="getProgramDetailKeywordList" parameterType="Map" resultMap="TourProgramDetailResultMap">
+    SELECT PROGRAM_DETAIL
+    FROM TOUR
+    /* getProgramDetailKeywordList */
+  </select>
+
+</mapper>
